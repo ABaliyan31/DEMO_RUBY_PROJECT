@@ -9,7 +9,9 @@
 <%= render partial: 'comments/form'%>
 <div>
   <%= link_to "Edit this micropost", edit_micropost_path(@micropost) %>
-  <%= link_to "Back to microposts", microposts_path %>
+   <% user_id = @micropost.user_id %>
+   <%  user_object = User.find(user_id) %>
+  <%= link_to "Back to user", user_path(user_object) %>
 
-  <%= button_to "Destroy this micropost", @micropost, method: :delete %>
+  <%# <%= button_to "Destroy this micropost", @micropost, method: :delete %>
 </div>

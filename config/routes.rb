@@ -5,7 +5,4 @@ Rails.application.routes.draw do
   end
 
   resources :users
-
-  root 'static_page#home'
-
 end

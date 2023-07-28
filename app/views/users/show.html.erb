@@ -8,6 +8,7 @@
   <%= link_to m.id , micropost_path(m.id)  %>
     &nbsp
   <%= image_tag (m.content), :width => "20%"  %>
+  <%= button_to "Destroy this micropost", micropost_path(m), method: :delete %>
    </div>
    &nbsp
 <%end%>

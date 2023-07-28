@@ -55,10 +55,13 @@ class MicropostsController < ApplicationController
 
   # DELETE /microposts/1 or /microposts/1.json
   def destroy
-    @micropost.destroy
+    current_micropost = Micropost.find(params[:id])
+    user_id = current_micropost.user_id
+    user_object = User.find(user_id)
+    current_micropost.destroy
 
     respond_to do |format|
-      format.html { redirect_to microposts_url, notice: "Micropost was successfully destroyed." }
+      format.html { redirect_to user_path(user_object), notice: "Micropost was successfully destroyed." }
       format.json { head :no_content }
     end
   end
