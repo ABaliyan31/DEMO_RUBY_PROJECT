@@ -8,6 +8,11 @@ class MicropostsController < ApplicationController
 
   # GET /microposts/1 or /microposts/1.json
   def show
+    begin
+      @micropost = Micropost.find(params[:id])
+    rescue ActiveRecord::RecordNotFound => e
+      redirect_to '/404'
+    end
   end
 
   # GET /microposts/new
@@ -17,6 +22,7 @@ class MicropostsController < ApplicationController
 
   # GET /microposts/1/edit
   def edit
+    @micropost = Micropost.find(params[:id])
   end
 
   # POST /microposts or /microposts.json
@@ -60,7 +66,11 @@ class MicropostsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_micropost
-      @micropost = Micropost.find(params[:id])
+      begin
+        @micropost = Micropost.find(params[:id])
+      rescue ActiveRecord::RecordNotFound => e
+        redirect_to '/404'
+      end
     end
 
     # Only allow a list of trusted parameters through.

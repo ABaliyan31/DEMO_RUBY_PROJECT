@@ -1,7 +1,20 @@
 <p style="color: green"><%= notice %></p>
 
 <%= render @user %>
-<%= render @microposts %>
+
+<%  @user.microposts.each do |m| %>
+  <div>
+  press here to see this micropost:
+  <%= link_to m.id , micropost_path(m.id)  %>
+    &nbsp
+  <%= image_tag (m.content), :width => "20%"  %>
+   </div>
+   &nbsp
+<%end%>
+  &nbsp
+
+
+
 <div>
   <%= link_to "Edit this user", edit_user_path(@user) %> |
   <%= link_to "Back to users", users_path %>

@@ -1,0 +1,12 @@
+<div>
+ <h4> REPLY TO COMMENT </h4>
+ <%= form_with(model: [@micropost, @comment]) do |f| %>
+ <%= f.hidden_field :parent_id, value: @parent_id %>
+ <div class="form-group">
+ <%= f.label 'Reply' %>
+ <%= f.text_area :comment %>
+ </div>
+ <%= f.submit 'Submit' %>
+ <%= link_to 'Cancel', micropost_path(@micropost) %>
+ <% end %>
+</div>

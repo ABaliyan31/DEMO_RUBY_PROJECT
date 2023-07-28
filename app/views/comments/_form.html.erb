@@ -1,0 +1,7 @@
+<%= form_with(model: [@micropost, @micropost.comments.build]) do |f| %>
+ <div>
+ <%= f.label 'New comment' %>
+ <%= f.text_area :comment %>
+ </div>
+ <%= f.submit 'Submit' %>
+ <% end %>
