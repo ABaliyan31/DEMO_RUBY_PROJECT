@@ -11,6 +11,12 @@ class UsersController < ApplicationController
   def show
     begin
       @user = User.find(params[:id])
+
+      if current_user && current_user.id == @user.id
+      render 'show'
+      else
+        redirect_to login_url
+      end
     rescue ActiveRecord::RecordNotFound => e
       redirect_to '/404'
     end
