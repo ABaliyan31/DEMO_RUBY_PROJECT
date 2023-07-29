@@ -2,6 +2,14 @@
 <% provide(:title, @user.name) %>
 <%= render @user %>
 
+<div>
+<%= button_to "Log out", logout_path , method: :delete %>
+</div>
+
+<div>
+<%= link_to "create new micropost", new_micropost_path%>
+</div>
+
 <%  @user.microposts.each do |m| %>
   <div>
   press here to see this micropost:
@@ -9,6 +17,7 @@
     &nbsp
   <%= image_tag (m.content), :width => "20%"  %>
   <%= button_to "Destroy this micropost", micropost_path(m.id), method: :delete %>
+  <%= link_to "Edit this micropost", edit_micropost_path(m) %>
    </div>
    &nbsp
 <%end%>

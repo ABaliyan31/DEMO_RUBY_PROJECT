@@ -17,7 +17,11 @@ class MicropostsController < ApplicationController
 
   # GET /microposts/new
   def new
+    if current_user == nil
+      redirect_to login_url
+    else
     @micropost = Micropost.new
+    end
   end
 
   # GET /microposts/1/edit
@@ -27,8 +31,11 @@ class MicropostsController < ApplicationController
 
   # POST /microposts or /microposts.json
   def create
-    @micropost = Micropost.new(micropost_params)
 
+    @micropost = Micropost.new(micropost_params)
+    if @micropost.user_id != current_user.id
+      redirect_to login_url
+    else
     respond_to do |format|
       if @micropost.save
         format.html { redirect_to micropost_url(@micropost), notice: "Micropost was successfully created." }
@@ -38,6 +45,7 @@ class MicropostsController < ApplicationController
         format.json { render json: @micropost.errors, status: :unprocessable_entity }
       end
     end
+  end
   end
 
   # PATCH/PUT /microposts/1 or /microposts/1.json
