@@ -3,6 +3,9 @@ class MicropostsController < ApplicationController
 
   # GET /microposts or /microposts.json
   def index
+    if current_user == nil
+      redirect_to login_url
+    end
     @microposts = Micropost.all
   end
 
@@ -10,6 +13,9 @@ class MicropostsController < ApplicationController
   def show
     begin
       @micropost = Micropost.find(params[:id])
+      if current_user == nil
+        redirect_to login_url
+      end
     rescue ActiveRecord::RecordNotFound => e
       redirect_to '/404'
     end
@@ -27,18 +33,21 @@ class MicropostsController < ApplicationController
   # GET /microposts/1/edit
   def edit
     @micropost = Micropost.find(params[:id])
+    micropost_user = @micropost.user_id
+    if @micropost.user_id != current_user.id
+      redirect_to login_url
+    end
   end
 
   # POST /microposts or /microposts.json
   def create
-
-    @micropost = Micropost.new(micropost_params)
-    if @micropost.user_id != current_user.id
+    if current_user == nil
       redirect_to login_url
     else
+    @micropost = Micropost.new(micropost_params)
     respond_to do |format|
       if @micropost.save
-        format.html { redirect_to micropost_url(@micropost), notice: "Micropost was successfully created." }
+        format.html { redirect_to user_url(current_user), notice: "Micropost was successfully created." }
         format.json { render :show, status: :created, location: @micropost }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -50,6 +59,11 @@ class MicropostsController < ApplicationController
 
   # PATCH/PUT /microposts/1 or /microposts/1.json
   def update
+    @micropost = Micropost.find(params[:id])
+    micropost_user = @micropost.user_id
+    if @micropost.user_id != current_user.id
+      redirect_to login_url
+    else
     respond_to do |format|
       if @micropost.update(micropost_params)
         format.html { redirect_to micropost_url(@micropost), notice: "Micropost was successfully updated." }
@@ -60,18 +74,22 @@ class MicropostsController < ApplicationController
       end
     end
   end
+  end
 
   # DELETE /microposts/1 or /microposts/1.json
   def destroy
     current_micropost = Micropost.find(params[:id])
     user_id = current_micropost.user_id
     user_object = User.find(user_id)
+    if user_object.id != current_user.id
+       redirect_to login_url
+    else
     current_micropost.destroy
-
     respond_to do |format|
       format.html { redirect_to user_path(user_object), notice: "Micropost was successfully destroyed." }
       format.json { head :no_content }
     end
+  end
   end
 
   private

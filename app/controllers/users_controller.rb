@@ -4,7 +4,6 @@ class UsersController < ApplicationController
   # GET /users or /users.json
   def index
     @users = User.all
-
   end
 
   # GET /users/1 or /users/1.json
@@ -30,6 +29,10 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
+    @user = User.find(params[:id])
+    if @user.id != current_user.id
+      redirect_to login_url
+    end
   end
 
   # POST /users or /users.json
@@ -50,6 +53,10 @@ class UsersController < ApplicationController
 
   # PATCH/PUT /users/1 or /users/1.json
   def update
+    @user = User.find(params[:id])
+    if @user.id != current_user.id
+      redirect_to login_url
+    else
     respond_to do |format|
       if @user.update(user_params)
         format.html { redirect_to user_url(@user), notice: "User was successfully updated." }
@@ -59,6 +66,7 @@ class UsersController < ApplicationController
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
+  end
   end
 
   # DELETE /users/1 or /users/1.json

@@ -1,6 +1,8 @@
 class SessionsController < ApplicationController
+
   def new
   end
+  
   def create
     user = User.find_by(email: params[:session][:email].downcase)
     respond_to do |format|
@@ -19,5 +21,5 @@ class SessionsController < ApplicationController
     log_out
     redirect_to login_url
   end
-  
+
 end

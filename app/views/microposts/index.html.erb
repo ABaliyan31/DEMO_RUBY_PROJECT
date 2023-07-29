@@ -1,13 +1,14 @@
 <p style="color: green"><%= notice %></p>
-
-<h1>Microposts</h1>
+<h1> <b><%= current_user.name %></b> has been logged-in </h1>
+<b><%= link_to "View your profile", user_path(current_user) %></b>
+<h2>Your Feed</h2>
 
 <div id="microposts">
   <% @microposts.each do |micropost| %>
-    <%= render micropost %>
-    <p>
-      <%= link_to "Show this micropost", micropost %>
-    </p>
+  <div>
+  <h3> click here to see this micropost <%=  link_to micropost.id  ,micropost %> </h3>
+  </div>
+  <b>--------------------------------------------------</b>
   <% end %>
 </div>
 
