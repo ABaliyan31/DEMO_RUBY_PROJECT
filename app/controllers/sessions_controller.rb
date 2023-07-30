@@ -1,8 +1,11 @@
 class SessionsController < ApplicationController
 
   def new
+    if current_user != nil
+      redirect_to user_path(current_user)
+    end
   end
-  
+
   def create
     user = User.find_by(email: params[:session][:email].downcase)
     respond_to do |format|
