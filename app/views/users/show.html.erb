@@ -12,7 +12,7 @@
   &nbsp
   </div>
 <%  @user.microposts.each do |m| %>
-
+<% if m.present == 1 %>
   <div>
     &nbsp
   <%= image_tag (m.content), :width => "20%"  %>
@@ -28,6 +28,7 @@
    <div>
   &nbsp
   </div>
+  <%end%>
 <%end%>
 <div>
   &nbsp
@@ -36,6 +37,9 @@
   &nbsp
   </div>
 <div>
+  <%= link_to "back to microposts", microposts_path %>
+  </div>
+  <div>
   <%= link_to "Edit this user", edit_user_path(@user) %>
   <%= button_to "Destroy this user", @user, method: :delete %>
 </div>

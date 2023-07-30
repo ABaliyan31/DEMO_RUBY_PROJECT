@@ -5,11 +5,13 @@
 
 <div id="microposts">
   <% @microposts.each do |micropost| %>
+  <% if micropost.present == 1%>
   <div>
   <h3> click here to see this micropost <%=  link_to micropost.id  ,micropost %> </h3>
   </div>
   <b>--------------------------------------------------</b>
   <% end %>
+  <%end%>
 </div>
 
 <a href='http://localhost:3000/microposts/new'>
