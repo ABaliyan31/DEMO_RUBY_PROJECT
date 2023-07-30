@@ -34,14 +34,14 @@ class MicropostsController < ApplicationController
   def edit
     @micropost = Micropost.find(params[:id])
     micropost_user = @micropost.user_id
-    if @micropost.user_id != current_user.id
+    if current_user == nil || @micropost.user_id != current_user.id
       redirect_to login_url
     end
   end
 
   # POST /microposts or /microposts.json
   def create
-    if current_user == nil
+    if current_user == nil || current_user.id != micropost_params[:user_id]
       redirect_to login_url
     else
     @micropost = Micropost.new(micropost_params)
@@ -61,7 +61,7 @@ class MicropostsController < ApplicationController
   def update
     @micropost = Micropost.find(params[:id])
     micropost_user = @micropost.user_id
-    if @micropost.user_id != current_user.id
+    if current_user == nil || @micropost.user_id != current_user.id
       redirect_to login_url
     else
     respond_to do |format|
@@ -81,7 +81,7 @@ class MicropostsController < ApplicationController
     current_micropost = Micropost.find(params[:id])
     user_id = current_micropost.user_id
     user_object = User.find(user_id)
-    if user_object.id != current_user.id
+    if current_user == nil || user_object.id != current_user.id
        redirect_to login_url
     else
     current_micropost.destroy

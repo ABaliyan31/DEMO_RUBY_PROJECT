@@ -10,8 +10,7 @@ class UsersController < ApplicationController
   def show
     begin
       @user = User.find(params[:id])
-
-      if current_user && current_user.id == @user.id
+      if current_user != nil && current_user.id == @user.id
       render 'show'
       else
         redirect_to login_url
@@ -30,7 +29,7 @@ class UsersController < ApplicationController
   # GET /users/1/edit
   def edit
     @user = User.find(params[:id])
-    if @user.id != current_user.id
+    if current_user == nil || @user.id != current_user.id
       redirect_to login_url
     end
   end
@@ -38,7 +37,6 @@ class UsersController < ApplicationController
   # POST /users or /users.json
   def create
     @user = User.new(user_params)
-
     respond_to do |format|
       if @user.save
         log_in @user
@@ -54,7 +52,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1 or /users/1.json
   def update
     @user = User.find(params[:id])
-    if @user.id != current_user.id
+    if current_user == nil || @user.id != current_user.id
       redirect_to login_url
     else
     respond_to do |format|
@@ -71,6 +69,11 @@ class UsersController < ApplicationController
 
   # DELETE /users/1 or /users/1.json
   def destroy
+
+    @user = User.find(params[:id])
+    if current_user == nil || @user.id != current_user.id
+      redirect_to login_url
+    end
     @user.destroy
     respond_to do |format|
       format.html { redirect_to users_url, notice: "User was successfully destroyed." }

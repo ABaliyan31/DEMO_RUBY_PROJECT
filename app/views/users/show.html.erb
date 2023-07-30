@@ -1,27 +1,40 @@
 <p style="color: green"><%= notice %></p>
 <% provide(:title, @user.name) %>
+<div>
 <%= render @user %>
 
-<div>
-<%= button_to "Log out", logout_path , method: :delete %>
-</div>
 
-<div>
+<%= button_to "Log out", logout_path , method: :delete %>
 <%= link_to "create new micropost", new_micropost_path%>
 </div>
-
+&nbsp
+<div>
+  &nbsp
+  </div>
 <%  @user.microposts.each do |m| %>
+
   <div>
-  press here to see this micropost:
-  <%= link_to m.id , micropost_path(m.id)  %>
     &nbsp
   <%= image_tag (m.content), :width => "20%"  %>
+  </div>
+  <div>
+  <b>press here to see this micropost: </b>
+  <%= link_to m.id , micropost_path(m.id)  %>
+  </div>
+  <div>
   <%= button_to "Destroy this micropost", micropost_path(m.id), method: :delete %>
   <%= link_to "Edit this micropost", edit_micropost_path(m) %>
    </div>
-   &nbsp
-<%end%>
+   <div>
   &nbsp
+  </div>
+<%end%>
+<div>
+  &nbsp
+  </div>
+  <div>
+  &nbsp
+  </div>
 <div>
   <%= link_to "Edit this user", edit_user_path(@user) %>
   <%= button_to "Destroy this user", @user, method: :delete %>
