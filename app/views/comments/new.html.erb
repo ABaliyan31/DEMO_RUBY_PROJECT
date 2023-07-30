@@ -2,6 +2,9 @@
  <h4> REPLY TO COMMENT </h4>
  <%= form_with(model: [@micropost, @comment]) do |f| %>
  <%= f.hidden_field :parent_id, value: @parent_id %>
+ <div>
+<%= f.hidden_field :user_id, value: current_user.id, readonly: true%>
+ </div>
  <div class="form-group">
  <%= f.label 'Reply' %>
  <%= f.text_area :comment %>

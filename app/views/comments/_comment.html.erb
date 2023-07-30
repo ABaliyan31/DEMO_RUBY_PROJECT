@@ -1,7 +1,8 @@
   <p>
 <% unless comment.parent_id || !comment.persisted? %>
 <p>
-
+ <% comment_owner = User.find(comment.user_id).name%>
+ <b><%=comment_owner%> </b>
  <%= comment.comment %>
  <%= link_to 'reply', new_micropost_comment_path(@micropost, parent_id: comment.id), remote: true %>
 </p>
@@ -9,7 +10,9 @@
 <% if comment.replies.any? %>
  <% comment.replies.each do |reply| %>
  <ul>
- <li><%=reply.comment%></li>
+<% reply_owner = User.find(reply.user_id).name%>
+ <b><%=reply_owner%> </b>
+ <%=reply.comment%>
  </ul>
  <% end %>
 <% end %>

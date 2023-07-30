@@ -3,5 +3,8 @@
  <%= f.label 'New comment' %>
  <%= f.text_area :comment %>
  </div>
+ <div>
+<%= f.hidden_field :user_id, value: current_user.id, readonly: true%>
+ </div>
  <%= f.submit 'Submit' %>
  <% end %>

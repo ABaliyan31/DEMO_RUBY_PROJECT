@@ -3,6 +3,7 @@ class User < ApplicationRecord
   before_save { self.email = email.downcase }
 
   has_many :microposts, dependent: :destroy
+  has_many :comments, dependent: :destroy
 
   validates :name, uniqueness: true, presence: true
 
