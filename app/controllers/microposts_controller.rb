@@ -1,6 +1,9 @@
 class MicropostsController < ApplicationController
   before_action :set_micropost, only: %i[ show edit update destroy ]
 
+  def logs
+    @versions = Version.all
+  end
   # GET /microposts or /microposts.json
   def index
     if current_user == nil
@@ -51,6 +54,8 @@ class MicropostsController < ApplicationController
       redirect_to login_url
     else
     @micropost = Micropost.new(micropost_params)
+    content_image = @micropost.content
+    #version = Version.create!(micropost_id: @micropost.id, content_after: content_image, action: "created")
     respond_to do |format|
       if @micropost.save
         format.html { redirect_to user_url(current_user), notice: "Micropost was successfully created." }
@@ -69,10 +74,11 @@ class MicropostsController < ApplicationController
     if @micropost.present == 0
       redirect_to '/404'
     end
-    micropost_user = @micropost.user_id
     if current_user == nil || @micropost.user_id != current_user.id
       redirect_to login_url
     else
+    new_content = micropost_params[:content]
+    #version = Version.create!(micropost_id: params[:id],content_after: new_content, action: "updated")
     respond_to do |format|
       if @micropost.update(micropost_params)
         format.html { redirect_to micropost_url(@micropost), notice: "Micropost was successfully updated." }
@@ -93,6 +99,8 @@ class MicropostsController < ApplicationController
     if current_user == nil || user_object.id != current_user.id
        redirect_to login_url
     else
+      #version = Version.create!(micropost_id: params[:id], action: "destroyed")
+      #version.save
     current_micropost.update(present: 0)
     respond_to do |format|
       format.html { redirect_to user_path(user_object), notice: "Micropost was successfully destroyed." }
