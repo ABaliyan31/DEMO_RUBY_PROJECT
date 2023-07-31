@@ -1,0 +1,15 @@
+<% if comment.replies.any? %>
+ <% comment.replies.each do |reply| %>
+ <ul>
+<% reply_owner = User.find(reply.user_id).name%>
+ <b><%=reply_owner%> </b>
+ <%=reply.comment%>
+ <%= link_to 'reply', new_micropost_comment_path(@micropost, parent_id: reply.id), remote: true %>
+ </ul>
+ <ul>
+ <%= render partial: 'comments/reply', locals: {micropost: @micropost, comment:reply}%>
+ </ul>
+ <% end %>
+<% end %>
+<div id="reply-form-<%= comment.id %>"></div>
+  </p>
