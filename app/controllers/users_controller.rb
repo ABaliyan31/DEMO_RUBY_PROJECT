@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: %i[ show edit update destroy ]
 
   # GET /users or /users.json
- 
+
   def index
     @users = User.all
   end
@@ -12,7 +12,7 @@ class UsersController < ApplicationController
     begin
       @user = User.find(params[:id])
       if current_user != nil && current_user.id == @user.id
-      render 'show'
+        render 'show'
       else
         redirect_to login_url
       end
@@ -56,16 +56,16 @@ class UsersController < ApplicationController
     if current_user == nil || @user.id != current_user.id
       redirect_to login_url
     else
-    respond_to do |format|
-      if @user.update(user_params)
-        format.html { redirect_to user_url(@user), notice: "User was successfully updated." }
-        format.json { render :show, status: :ok, location: @user }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        if @user.update(user_params)
+          format.html { redirect_to user_url(@user), notice: "User was successfully updated." }
+          format.json { render :show, status: :ok, location: @user }
+        else
+          format.html { render :edit, status: :unprocessable_entity }
+          format.json { render json: @user.errors, status: :unprocessable_entity }
+        end
       end
     end
-  end
   end
 
   # DELETE /users/1 or /users/1.json

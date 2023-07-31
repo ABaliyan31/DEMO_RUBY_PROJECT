@@ -1,15 +1,13 @@
 class MicropostsController < ApplicationController
   before_action :set_micropost, only: %i[ show edit update destroy ]
 
-  def logs
-    @versions = Version.all
-  end
+
   # GET /microposts or /microposts.json
   def index
     if current_user == nil
       redirect_to login_url
     end
-    @microposts = Micropost.all
+      @microposts = Micropost.all
   end
 
   # GET /microposts/1 or /microposts/1.json
@@ -53,19 +51,18 @@ class MicropostsController < ApplicationController
     if current_user == nil || current_user.id != micropost_params[:user_id].to_i
       redirect_to login_url
     else
-    @micropost = Micropost.new(micropost_params)
-    content_image = @micropost.content
-    #version = Version.create!(micropost_id: @micropost.id, content_after: content_image, action: "created")
-    respond_to do |format|
-      if @micropost.save
-        format.html { redirect_to user_url(current_user), notice: "Micropost was successfully created." }
-        format.json { render :show, status: :created, location: @micropost }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @micropost.errors, status: :unprocessable_entity }
+      @micropost = Micropost.new(micropost_params)
+      content_image = @micropost.content
+      respond_to do |format|
+       if @micropost.save
+         format.html { redirect_to user_url(current_user), notice: "Micropost was successfully created." }
+         format.json { render :show, status: :created, location: @micropost }
+       else
+         format.html { render :new, status: :unprocessable_entity }
+         format.json { render json: @micropost.errors, status: :unprocessable_entity }
+       end
       end
     end
-  end
   end
 
   # PATCH/PUT /microposts/1 or /microposts/1.json
@@ -78,7 +75,6 @@ class MicropostsController < ApplicationController
       redirect_to login_url
     else
     new_content = micropost_params[:content]
-    #version = Version.create!(micropost_id: params[:id],content_after: new_content, action: "updated")
     respond_to do |format|
       if @micropost.update(micropost_params)
         format.html { redirect_to micropost_url(@micropost), notice: "Micropost was successfully updated." }
@@ -97,16 +93,14 @@ class MicropostsController < ApplicationController
     user_id = current_micropost.user_id
     user_object = User.find(user_id)
     if current_user == nil || user_object.id != current_user.id
-       redirect_to login_url
+      redirect_to login_url
     else
-      #version = Version.create!(micropost_id: params[:id], action: "destroyed")
-      #version.save
-    current_micropost.update(present: 0)
-    respond_to do |format|
-      format.html { redirect_to user_path(user_object), notice: "Micropost was successfully destroyed." }
-      format.json { head :no_content }
+      current_micropost.update(present: 0)
+      respond_to do |format|
+        format.html { redirect_to user_path(user_object), notice: "Micropost was successfully destroyed." }
+        format.json { head :no_content }
+      end
     end
-  end
   end
 
   private
