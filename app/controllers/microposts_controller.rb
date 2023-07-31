@@ -2,6 +2,22 @@ class MicropostsController < ApplicationController
   before_action :set_micropost, only: %i[ show edit update destroy ]
 
 
+  def restore
+    if current_user == nil
+      redirect_to login_url
+    else
+      begin
+        @restored_micropost = Micropost.find(params[:micropost_id])
+        @restored_micropost.update(present: 1)
+        respond_to do |format|
+          format.html { redirect_to user_url(current_user), notice: "Micropost was successfully restored" }
+        end
+      rescue ActiveRecord::RecordNotFound => e
+        redirect_to '/404'
+      end
+    end
+  end
+
   # GET /microposts or /microposts.json
   def index
     if current_user == nil

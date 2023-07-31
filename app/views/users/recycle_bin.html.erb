@@ -1,0 +1,28 @@
+<div>
+<h2> <%= link_to "Back to User" , user_path(@user) %> </h2>
+</div>
+<div>
+ &nbsp
+</div>
+<%  @deleted_micropost.each do |m| %>
+<div>
+<%= image_tag (m.content), :width => "20%"  %>
+</div>
+<div>
+<%= m.id %>
+<%= %>
+<div>
+ <%= link_to "restore this micropost" , micropost_restore_path(m) %>
+<%= %>
+<div>
+ &nbsp
+</div>
+<div>
+ &nbsp
+</div>
+<div>
+ &nbsp
+</div>
+</div>
+<%end%>
+

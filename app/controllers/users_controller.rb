@@ -3,7 +3,16 @@ class UsersController < ApplicationController
 
 
   def recycle_bin
-
+   begin
+    @user = User.find(params[:user_id])
+    if current_user != nil && current_user.id == @user.id
+      @deleted_micropost = Micropost.where(user_id: params[:user_id], present: 0)
+    else
+      redirect_to login_url
+    end
+   rescue ActiveRecord::RecordNotFound => e
+    redirect_to '/404'
+   end
   end
 
   # GET /users or /users.json

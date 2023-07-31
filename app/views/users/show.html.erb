@@ -3,7 +3,7 @@
 <div>
 <%= render @user %>
 
-
+<%= link_to "recycle-bin", user_recyclebin_path(@user)%>
 <%= button_to "Log out", logout_path , method: :delete %>
 <%= link_to "create new micropost", new_micropost_path%>
 </div>
