@@ -2,6 +2,21 @@ class MicropostsController < ApplicationController
   before_action :set_micropost, only: %i[ show edit update destroy ]
 
 
+  def destroy_post
+    if current_user == nil || Micropost.find(params[:micropost_id]).user_id != current_user.id
+      redirect_to login_url
+    else
+      begin
+        Micropost.find(params[:micropost_id]).destroy
+        respond_to do |format|
+          format.html { redirect_to user_recyclebin_path(current_user), notice: "Micropost is successfully destroyed" }
+        end
+      rescue ActiveRecord::RecordNotFound => e
+        redirect_to '/404'
+      end
+    end
+  end
+
   def restore
     if current_user == nil || Micropost.find(params[:micropost_id]).user_id != current_user
       redirect_to login_url

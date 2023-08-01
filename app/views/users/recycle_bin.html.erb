@@ -1,3 +1,4 @@
+<p style="color: red"><%= notice %></p>
 <div>
 <h2> <%= link_to "Back to User" , user_path(@user) %> </h2>
 </div>
@@ -12,7 +13,8 @@
 <%= m.id %>
 <%= %>
 <div>
- <%= link_to "restore this micropost" , micropost_restore_path(m) %>
+ <b><%= link_to "restore this micropost" , micropost_restore_path(m) %> </b> <b>/</b>
+ <b><%= link_to "delete this post from bin" , micropost_destroy_path(m) %></b>
 <%= %>
 <div>
  &nbsp

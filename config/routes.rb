@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :microposts do
     resources :comments
     get '/restore', to: 'microposts#restore'
+    get '/destroy', to: 'microposts#destroy_post'
   end
 
   resources :users do
