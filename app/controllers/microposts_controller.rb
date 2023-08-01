@@ -3,7 +3,7 @@ class MicropostsController < ApplicationController
 
 
   def restore
-    if current_user == nil
+    if current_user == nil || Micropost.find(params[:micropost_id]).user_id != current_user
       redirect_to login_url
     else
       begin
