@@ -11,6 +11,7 @@ class SessionsController < ApplicationController
     respond_to do |format|
       if user && user.authenticate(params[:session][:password])
         log_in user
+        params[:session][:remember_me] == '1' ? remember(user) : forget(user)
         format.html { redirect_to user_url(user), notice: "User was successfully logged in" }
         format.json { render :show, status: :created, location: @user }
       else
@@ -20,7 +21,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    log_out
+    log_out if logged_in?
     redirect_to login_url
   end
 
